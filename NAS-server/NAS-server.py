@@ -8,15 +8,19 @@ import bin.shell as shell
 NAME = socket.gethostname()
 IP = socket.gethostbyname(NAME)
 
-out = shell.run_command("ifconfig")
-t = out[out.index("wlan0"):]
-if "inet " in t:
-    IP = t[t.index("inet ")+5: t.index("netmask")-1]
-    IP = IP[:IP.index(" ")] if " " in IP else IP
+try:
+    out = shell.run_command("ifconfig")
+    t = out[out.index("wlan0"):]
+    if "inet " in t:
+        IP = t[t.index("inet ")+5: t.index("netmask")-1]
+        IP = IP[:IP.index(" ")] if " " in IP else IP
+    
+    else:
+        print(f'no internet connection switching to local ip:{IP}\n')
 
-else:
-    print(f'no internet connection switching to local ip:{IP}\n')
-
+except Exception as e:
+    print(f'failed to fetch ip\nError: {e}')
+    IP = input('input machines ip: ')
 
 PORT = int(input("Server on port (49152-65535)? "))
 TIME = int(input("Server runtime in minute? "))
