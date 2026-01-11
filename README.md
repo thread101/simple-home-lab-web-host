@@ -104,5 +104,3 @@ cloudflared tunnel --url=http://localhost:8080
 - *Feel free to mod the `html`, and `css`  template in the `Web` directory, You can also embed `javascript` but will have to go under script tag in the html.*
 
 ### Hope you found it useful 😌
-
-[![Donate with PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate?hosted_button_id=YOUR_BUTTON_ID)
