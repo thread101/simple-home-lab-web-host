@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 import time
 import http.server
 import socketserver
@@ -62,7 +64,7 @@ class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 html += f"""
                     <li class="file">
                         <a href="{file}">{file}</a>
-                        <a class="download" href="{file}" download="download-{file}">download</a> 
+                        <a class="download" href="{file}" download="NAS-{file}">download</a> 
                     </li>
                 """
 
@@ -89,13 +91,20 @@ class server(threading.Thread):
         self.path = path
         self.port = port
         self.instance = None
+        self._is_down = False
         assert os.path.exists(path), "path doesn't exist"
         assert PORT in range(0, 65536), "Port is out of range (0-65535)"
         super().__init__(*args, **kwags)
 
     def shutdown(self):
+        if self._is_down:
+            return
+
         if self.instance is not None:
             self.instance.shutdown()
+
+        while not self._is_down:
+            pass
 
     def run(self):
         path = self.path
@@ -109,6 +118,7 @@ class server(threading.Thread):
             self.instance = httpd
             httpd.serve_forever()
 
+        self._is_down = True
 
 IP = "localhost"
 PATH = os.getcwd()
@@ -152,7 +162,7 @@ finally:
     localServer.start()
     link = f"http://{IP}:{PORT}"
     print(
-        f"\033[32;1mserver running at: \033[34m{link}\033[33m ,for {TIME/60} minutes\033[0m."
+        f"\033[32;1mUrl: \033[34m{link}\033[33m\nRuntime:\033[34m {TIME/60} minutes\n\033[33mPath:\033[34m {PATH}\033[0m"
     )
 
     try:
@@ -164,4 +174,4 @@ finally:
 
     except KeyboardInterrupt:
         localServer.shutdown()
-        print("\033[33;1mclosing sever on command\033[0m")
+        print("\033[33;1mclosing server on command\033[0m")
