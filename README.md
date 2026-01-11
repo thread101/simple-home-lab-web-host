@@ -64,10 +64,10 @@ python NAS-server.py C: 8080 10
 
 > NOTE: If a directory contains html file and is clicked this renders the page on the browser, `index.html` are also opened by default.
 
-<details id="advance">
-<summary style="color: blue;">share over the internet</summary>
-
 ---
+
+<details id="advance">
+<summary>share over the internet</summary>
 
 ### To share over the internet you need to tunnel your connection to a remote server also known as port forwarding
 
@@ -95,12 +95,12 @@ cloudflared tunnel --url=http://localhost:8080
 
 - *For more info on the tool run `cloudflared --help` on your commandline or [visit](https://github.com/cloudflare/cloudflared/releases) their github repo.*
 
----
-
 </details>
+
+---
 
 ## Modification
 
 - *Feel free to mod the `html`, and `css`  template in the `Web` directory, You can also embed `javascript` but will have to go under script tag in the html.*
 
-### Hope you found it useful 😌
+### Hope you found it useful
