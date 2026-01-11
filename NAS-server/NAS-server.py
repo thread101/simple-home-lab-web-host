@@ -90,7 +90,7 @@ class server(threading.Thread):
         self.port = port
         self.instance = None
         assert os.path.exists(path), "path doesn't exist"
-        assert PORT in range(0, 65536), "Port is out of range"
+        assert PORT in range(0, 65536), "Port is out of range (0-65535)"
         super().__init__(*args, **kwags)
 
     def shutdown(self):
@@ -100,7 +100,6 @@ class server(threading.Thread):
     def run(self):
         path = self.path
         port = self.port
-
 
         class handler(CustomHTTPRequestHandler):
             def __init__(self, *args, **kwargs):
@@ -120,14 +119,25 @@ try:
     PATH = sys.argv[1]
     try:
         PORT = int(sys.argv[2])
-        try: TIME = float(sys.argv[3]) * 60
-        except IndexError: pass
+        try:
+            TIME = float(sys.argv[3]) * 60
+        except IndexError:
+            pass
+        except ValueError:
+            print(f"\033\a[31;1mError: \033[0m time should be a Number (float/int)")
+            os._exit(1)
 
     except IndexError:
         pass
 
+    except ValueError:
+        print(f"\033\a[31;1mError: \033[0m time should be a Number (int)")
+        os._exit(1)
+
 except IndexError:
-    print(f"\033[33;1mYou can also pass arguments:\033[0m python {sys.argv[0]} [path] [port] [runtime(minutes)]")
+    print(
+        f"\033[33;1mYou can also pass arguments:\033[0m python {sys.argv[0]} [path] [port] [runtime(minutes)]"
+    )
 
 finally:
     startTime = time.time()
@@ -141,7 +151,9 @@ finally:
 
     localServer.start()
     link = f"http://{IP}:{PORT}"
-    print(f"\033[32;1mserver running at: \033[34m{link}\033[33m ,for {TIME/60} minutes\033[0m.")
+    print(
+        f"\033[32;1mserver running at: \033[34m{link}\033[33m ,for {TIME/60} minutes\033[0m."
+    )
 
     try:
         while True:
