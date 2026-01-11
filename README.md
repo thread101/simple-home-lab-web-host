@@ -12,7 +12,7 @@ This is a project that allows you to create a url that can be used to share file
 
 ```shell
 git clone https://github.com/thread101/simple-home-lab-web-host.git
-cd simple-home-lab-web-host
+cd simple-home-lab-web-host/NAS-server
 ```
 
 - *Run the script `NAS-server.py`.*
